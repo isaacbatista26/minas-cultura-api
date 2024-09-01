@@ -10,16 +10,10 @@ async function getTendersByMonth(start, end) {
         .from('tendersmonth')
         .select('*')
         .or(
-            and(year.eq.$
-                {startYear},month.gte.$
-                {startMonth}, +
-                and(year.gt.$
-                    {startYear},year.lt.$
-                    {endYear}), +
-                and(year.eq.$
-                    {endYear},month.lte.$
-                    {endMonth})
-                );
+            `and(year.eq.${startYear},month.gte.${startMonth}),` + // Meses do ano de início
+            `and(year.gt.${startYear},year.lt.${endYear}),` +       // Anos intermediários
+            `and(year.eq.${endYear},month.lte.${endMonth})`         // Meses do ano de fim
+        );
     
     if (error) {
         throw new Error(error.message);
