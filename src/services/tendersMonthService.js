@@ -9,10 +9,17 @@ async function getTendersByMonth(start, end) {
     const { data, error } = await supabase
         .from('tendersmonth')
         .select('*')
-        .gte('year', startYear)
-        .lte('year', endYear)
-        .gte('month', startMonth)
-        .lte('month', endMonth);
+        .or(
+            and(year.eq.$
+                {startYear},month.gte.$
+                {startMonth}, +
+                and(year.gt.$
+                    {startYear},year.lt.$
+                    {endYear}), +
+                and(year.eq.$
+                    {endYear},month.lte.$
+                    {endMonth})
+                );
     
     if (error) {
         throw new Error(error.message);
